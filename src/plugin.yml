@@ -1,0 +1,7 @@
+main: mr.minecraft15.shop.Main
+name: Shop
+author: Mr_Minecraft15
+version: 1.0
+depend: [Vault]
+commands:
+ shop:
