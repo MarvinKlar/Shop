@@ -63,7 +63,7 @@ public class Main extends JavaPlugin {
 
 	saveConfig();
 
-	setMessageManager(new MessageManager(cfg, cfg.getString("Prefix")));
+	setMessageManager(new MessageManager(cfg));
 
 	ShopCommand.SetShopTitle(messageManager.getMessage("Shop_Name"));
 

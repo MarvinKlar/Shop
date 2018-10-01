@@ -12,8 +12,8 @@ public class MessageManager {
     private final HashMap<String, String> hmpMessages = new HashMap<>();
     private final String strPrefix;
 
-    public MessageManager(final FileConfiguration filConfig, final String strPrefix) {
-	this.strPrefix = ChatColor.translateAlternateColorCodes('&', strPrefix);
+    public MessageManager(final FileConfiguration filConfig) {
+	this.strPrefix = ChatColor.translateAlternateColorCodes('&', filConfig.getString("Messages.Prefix"));
 
 	for (final String strKey : filConfig.getConfigurationSection("Messages").getKeys(false)) {
 	    if (filConfig.getStringList("Messages." + strKey).isEmpty()) {
@@ -22,6 +22,10 @@ public class MessageManager {
 		addList(strKey, filConfig.getStringList("Messages." + strKey));
 	    }
 	}
+    }
+
+    public MessageManager(final String strPrefix) {
+	this.strPrefix = ChatColor.translateAlternateColorCodes('&', strPrefix);
     }
 
     public String getMessage(String strKey, final Object... objParameters) {
