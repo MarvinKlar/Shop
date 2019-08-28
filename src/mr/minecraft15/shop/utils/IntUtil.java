@@ -42,4 +42,8 @@ public class IntUtil {
 	    return 0;
 	}
     }
+
+    public static boolean isValidSlot(String s) {
+	return isInt(s) && getInt(s) >= 0 && getInt(s) <= 53;
+    }
 }

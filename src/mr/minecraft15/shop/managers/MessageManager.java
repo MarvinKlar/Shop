@@ -13,7 +13,7 @@ public class MessageManager {
     private final String strPrefix;
 
     public MessageManager(final FileConfiguration filConfig) {
-	this.strPrefix = ChatColor.translateAlternateColorCodes('&', filConfig.getString("Messages.Prefix"));
+	this.strPrefix = ChatColor.translateAlternateColorCodes('&', filConfig.getString("Prefix"));
 
 	for (final String strKey : filConfig.getConfigurationSection("Messages").getKeys(false)) {
 	    if (filConfig.getStringList("Messages." + strKey).isEmpty()) {

@@ -39,11 +39,14 @@ public class Main extends JavaPlugin {
 	cfg.addDefault("Messages.Removed_Item",
 		"%prefix% The item &6%item_slot% &7(&6%item_name%&7) was removed from the category &6%category_slot% &7(&6category_name&7).");
 	cfg.addDefault("Messages.Item_Does_Not_Exist", "%prefix% The item &6%item_slot% &7does not exist.");
-	cfg.addDefault("Messages.Help",
-		Arrays.asList(new String[] { "&6/Shop addcategory <slot> &7- Adds a category",
-			"&6/Shop removecategory <slot> &7- Removes a category",
-			"&6/Shop additem <category> <slot> <buy price> <sell price> &7- Adds a item",
-			"&6/Shop removeitem <category> <slot> &7- Removes a item" }));
+	cfg.addDefault("Messages.Help", Arrays.asList(new String[] { "&6/Shop &7- Opens the shop",
+		"&6/Shop addCategory <slot> &7- Adds a category",
+		"&6/Shop removeCategory <slot> &7- Removes a category",
+		"&6/Shop addItem <category> <slot> <buy price> <sell price> &7- Adds a item",
+		"&6/Shop removeItem <category> <slot> &7- Removes a item",
+		"&6/Shop setBackButton <category> <slot> &7- Sets the button to go back to the main menu to the category",
+		"&6/Shop removeBackButton <category> &7- Removes the button to go back to the main menu from a category",
+		"&6/Shop setRows <category> <1-6> &7- Sets the amount of rows of a category" }));
 	cfg.addDefault("Messages.Coming_Soon", "%prefix% Coming soon...");
 	cfg.addDefault("Messages.Shop_Item_Description",
 		Arrays.asList(new String[] { "&7Buy price: &6%buy_price% &7(Left click + Shift = Buy 64 items)",
@@ -60,12 +63,22 @@ public class Main extends JavaPlugin {
 	cfg.addDefault("Messages.Sold_Item", "%prefix% You sold &6%item_amount% %item_name% &7for &6%money%&7.");
 	cfg.addDefault("Messages.Not_Enough_Items_To_Sell",
 		"%prefix% You need &6%item_amount_missing% %item_name% &7more to sell &6%item_amount% %item_name% &7for &6%money%.");
+	cfg.addDefault("Messages.Slot_Is_Already_Occupied",
+		"%prefix% The slot &6%item_slot% &7is already occupied by an item in that category.");
+	cfg.addDefault("Messages.Back_Button_Created",
+		"%prefix% The back button was successfully set to slot &6%item_slot%&7.");
+	cfg.addDefault("Messages.Back_Button_Removed", "%prefix% The back button was removed successfully.");
+	cfg.addDefault("Messages.Category_Rows_Set",
+		"%prefix% The category &6%category% &7will now have &6%amount_rows% &7row(s).");
+	cfg.addDefault("Messages.Items_Hidden_By_Size",
+		"%prefix% &cBy only displaying &6%amount_rows% &crows in the category &6%category%&c, &6%items_hidden% &citem(s) will be hidden!");
+	cfg.addDefault("Messages.Back", "&cBack");
 
 	saveConfig();
 
 	setMessageManager(new MessageManager(cfg));
 
-	ShopCommand.SetShopTitle(messageManager.getMessage("Shop_Name"));
+	ShopCommand.setShopTitle(messageManager.getMessage("Shop_Name"));
 
 	ShopCommand.setCurrency(cfg.getInt("Currency"));
 
