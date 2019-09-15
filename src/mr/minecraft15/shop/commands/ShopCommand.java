@@ -245,7 +245,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 	}
 
 	MessageManager messageManager = Main.getMessageManager();
-	if (e.getCurrentItem().getType() == Material.OAK_DOOR && e.getCurrentItem().hasItemMeta()
+	if (e.getCurrentItem().getType() == Material.WOOD_DOOR && e.getCurrentItem().hasItemMeta()
 		&& e.getCurrentItem().getItemMeta().hasDisplayName() && e.getCurrentItem().getItemMeta()
 			.getDisplayName().equalsIgnoreCase(messageManager.getMessage("Back"))) {
 	    showShop(p);
@@ -275,7 +275,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 		i.setItem(IntUtil.getInt(itemslot), is);
 	    }
 	    if (cfg.contains("Shop.backbuttons." + categoryslot)) {
-		final ItemStack is = new ItemStack(Material.OAK_DOOR);
+		final ItemStack is = new ItemStack(Material.WOOD_DOOR);
 		final ItemMeta im = is.getItemMeta();
 		im.setDisplayName(messageManager.getMessage("Back"));
 		is.setItemMeta(im);
