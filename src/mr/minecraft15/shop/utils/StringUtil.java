@@ -3,6 +3,7 @@ package mr.minecraft15.shop.utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 
 import mr.minecraft15.shop.Main;
 import mr.minecraft15.shop.managers.MessageManager;
@@ -52,7 +53,8 @@ public class StringUtil {
     }
 
     public static String getItemName(ItemStack is) {
-	return getItemName(is.getType()) + (is.getDurability() == 0 ? "" : ":" + is.getDurability());
+	return getItemName(is.getType()) + (((Damageable) is.getItemMeta()).getDamage() == 0 ? ""
+		: ":" + ((Damageable) is.getItemMeta()).getDamage());
     }
 
     public static String getItemName(Material type) {

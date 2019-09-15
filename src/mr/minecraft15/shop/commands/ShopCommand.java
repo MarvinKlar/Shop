@@ -31,7 +31,7 @@ public class ShopCommand implements CommandExecutor, Listener {
     private static YamlConfiguration cfg;
 
     private static String shopTitle;
-    private static int currency = -1;
+    private static String currency = "-1";
 
     @Override
     public boolean onCommand(CommandSender s, Command c, String l, String[] a) {
@@ -45,7 +45,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 		    if (a[0].equalsIgnoreCase("addcategory")) {
 			if (IntUtil.isValidSlot(a[1])) {
 			    int slot = IntUtil.getInt(a[1]);
-			    final ItemStack is = p.getItemInHand();
+			    final ItemStack is = p.getInventory().getItemInMainHand();
 			    if (is == null || is.getType() == null || is.getType() == Material.AIR) {
 				p.sendMessage(messageManager.getMessage("Select_Item_For_Category"));
 			    } else {
@@ -70,7 +70,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 			}
 		    } else if (a[0].equalsIgnoreCase("additem")) {
 			if (a.length >= 5) {
-			    final ItemStack is = p.getItemInHand();
+			    final ItemStack is = p.getInventory().getItemInMainHand();
 			    if (is == null || is.getType() == Material.AIR) {
 				p.sendMessage(messageManager.getMessage("Select_Item"));
 				return true;
@@ -245,13 +245,13 @@ public class ShopCommand implements CommandExecutor, Listener {
 	}
 
 	MessageManager messageManager = Main.getMessageManager();
-	if (e.getCurrentItem().getType() == Material.WOOD_DOOR && e.getCurrentItem().hasItemMeta()
+	if (e.getCurrentItem().getType() == Material.OAK_DOOR && e.getCurrentItem().hasItemMeta()
 		&& e.getCurrentItem().getItemMeta().hasDisplayName() && e.getCurrentItem().getItemMeta()
 			.getDisplayName().equalsIgnoreCase(messageManager.getMessage("Back"))) {
 	    showShop(p);
 	}
 
-	final String ename = e.getInventory().getName();
+	final String ename = e.getView().getTitle();
 	if (ename.equalsIgnoreCase(shopTitle)) {
 	    e.setCancelled(true);
 	    final int categoryslot = e.getSlot();
@@ -275,7 +275,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 		i.setItem(IntUtil.getInt(itemslot), is);
 	    }
 	    if (cfg.contains("Shop.backbuttons." + categoryslot)) {
-		final ItemStack is = new ItemStack(Material.WOOD_DOOR);
+		final ItemStack is = new ItemStack(Material.OAK_DOOR);
 		final ItemMeta im = is.getItemMeta();
 		im.setDisplayName(messageManager.getMessage("Back"));
 		is.setItemMeta(im);
@@ -286,7 +286,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 	} else if (ename.contains(shopTitle + " - ")) {
 	    e.setCancelled(true);
 	    for (final String slotInCategoryMenu : cfg.getConfigurationSection("Shop.categories").getKeys(false)) {
-		if (e.getInventory().getName().contains(
+		if (e.getView().getTitle().contains(
 			StringUtil.getShopNameSuffix(cfg.getItemStack("Shop.categories." + slotInCategoryMenu)))) {
 		    final double buyprice = cfg
 			    .getDouble("Shop.items." + slotInCategoryMenu + "." + e.getSlot() + ".buy");
@@ -340,7 +340,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 	final double totalcosts = costs * amount;
 	final Material m = Material.getMaterial(currency);
 	if (totalcosts <= money(p)) {
-	    if (currency == -1) {
+	    if (currency.equals("-1")) {
 		MoneyUtil.withdrawMoney(p, totalcosts);
 	    } else {
 		for (int i = 0; i < totalcosts; i++) {
@@ -379,7 +379,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 	    p.sendMessage(messageManager.getMessage("Sold_Item", "item_amount", amount, "item_name",
 		    StringUtil.getItemName(is), "money", StringUtil.getCurrency(totalcosts)));
 	    p.updateInventory();
-	    if (currency == -1) {
+	    if (currency.equals("-1")) {
 		MoneyUtil.depositMoney(p, totalcosts);
 	    } else {
 		for (int i = 0; i < totalcosts; i++) {
@@ -428,7 +428,7 @@ public class ShopCommand implements CommandExecutor, Listener {
     }
 
     private double money(final Player p) {
-	if (currency == -1) {
+	if (currency.equals("-1")) {
 	    return MoneyUtil.getMoney(p);
 	}
 
@@ -444,7 +444,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 	return items;
     }
 
-    public static void setCurrency(final int newCurrency) {
+    public static void setCurrency(final String newCurrency) {
 	currency = newCurrency;
     }
 
@@ -468,7 +468,7 @@ public class ShopCommand implements CommandExecutor, Listener {
 	}
     }
 
-    public static int getCurrency() {
+    public static String getCurrency() {
 	return currency;
     }
 
